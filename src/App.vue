@@ -1,23 +1,23 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
     <router-view></router-view>
+    <b-navbar></b-navbar>
   </div>
 </template>
 
 <script>
-export default {
-  name: 'app'
-}
-</script>
+  import BNavbar from 'components/home/b_navbar.vue'
 
-<style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+  export default {
+    name: 'app',
+    components: {
+      BNavbar,
+    }
+  }
+</script>
+<style scoped lang="less" type="text/less">
+  #app{
+    height: 100%;
+  }
 </style>
+

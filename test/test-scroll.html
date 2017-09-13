@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <title>Title</title>
+  <style>
+    .wrapper {
+      width: 300px;
+      border: 2px solid;
+      height: 50px;
+    }
+
+    .content {
+      background-color: #ededed;
+      height: 50px;
+      width: 450px;
+    }
+
+    .content p {
+      width: 50px;
+      display: inline-block;
+    }
+  </style>
+</head>
+<body>
+<div class="wrapper">
+  <div class="content">
+    <p>1</p>
+    <p>2</p>
+    <p>3</p>
+    <p>4</p>
+    <p>5</p>
+    <p>6</p>
+    <p>7</p>
+    <p>8</p>
+  </div>
+
+
+</div>
+<script src="../node_modules/better-scroll/dist/bscroll.js"></script>
+
+<script>
+  let wrapper = document.querySelector('.wrapper')
+  let scroll = new BScroll(wrapper, {click: true, scrollX: true})
+  function f() {
+
+  }
+</script>
+<script src="http://m.you.163.com/?callback=f" ></script>
+</body>
+</html>
