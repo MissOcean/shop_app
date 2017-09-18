@@ -4,7 +4,7 @@
     <div class="picPanel">
       <div v-if="!proPlace&&colorNum" class="label">{{colorNum}}色可选</div>
       <div v-if="proPlace" class="label">{{proPlace}}</div>
-      <img :src="itemInfo.listPicUrl">
+      <img v-lazy="itemInfo.listPicUrl">
     </div>
     <p class="desc">{{desc}}</p>
     <p class="name">{{itemInfo.name}}</p>
@@ -45,16 +45,20 @@
     margin: 0 0 .2rem .2rem;
     box-sizing: border-box;
     text-align: left;
+    background: #f4f4f4;
+    /*这里设置picPanel背景路由切换会无效，所以设置item背景*/
     .picPanel {
-      background: #f4f4f4;
+      /*background: #f4f4f4;*/
       position: relative;
       border-radius: .03rem;
       .label {
         text-align: center;
         color: #b4a078;
         position: absolute;
-        left: .15rem;
-        top: .15rem;
+        transform: scale(0.8);
+        margin: .03rem 0 0 .15rem;
+        /*left: .15rem;
+        top: .15rem;*/
         width: .3rem;
         padding: .12rem 0;
         border: .5px solid #b4a078;
@@ -68,6 +72,8 @@
         width: 3.45rem;
         display: block;
         //底部有留白，设置为block
+        background-color: transparent;
+        //div.panel背景颜色不生效
       }
 
     }
@@ -80,12 +86,19 @@
       font-size: .24rem;
     }
     .name {
+      /*文字超出一行缩略*/
       padding: .2rem;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+      background-color: #fff;
     }
     .price {
       padding: 0 .2rem;
       color: #b4282d;
       font-size: .28rem;
+      background-color: #fff;
+
     }
   }
 </style>

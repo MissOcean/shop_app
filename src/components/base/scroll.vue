@@ -1,6 +1,7 @@
 <template>
   <div ref="wrapper">
     <slot></slot>
+    <!--注意bscoll只会把wrapper中第一个div作为滚动内容-->
   </div>
   <!--后期加上滚动条与回到顶部-->
 </template>

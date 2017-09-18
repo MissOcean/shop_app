@@ -6,7 +6,7 @@
 </template>
 
 <script>
-  import BNavbar from 'components/home/b_navbar.vue'
+  import BNavbar from 'components/base/b_navbar.vue'
 
   export default {
     name: 'app',

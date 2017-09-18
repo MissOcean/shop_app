@@ -23,11 +23,10 @@
           </router-link>
         </div>
       </scroll>
-
     </div>
     <div class="pageContent">
-      <router-view :data="jsonData"></router-view>
-      <loading v-show="!itemList.length" :h="60" :w="60"></loading>
+      <router-view :data="jsonData" v-show="jsonData"></router-view>
+      <loading v-show="!jsonData" :h="60" :w="60"></loading>
     </div>
   </div>
 </template>
@@ -36,18 +35,22 @@
   import Loading from 'components/base/loading.vue'
   import {getRecommendData} from 'api/getData.js'
 
-
   export default {
     data() {
       return {
-        jsonData: {},
+        jsonData: '',
         itemList: [],
         htmlfontSize: 0
       }
     },
     created() {
       //getData
-      getRecommendData().then(data => this._handleData(data))
+      getRecommendData().then(data => {
+        //设置定时器模拟延时600ms
+        setTimeout(() => {
+          this._handleData(data)
+        }, 600)
+      })
       //window resize改变htmlfontSize
       let that = this;
       this.htmlfontSize = window.config.htmlfontSize;
@@ -59,13 +62,10 @@
       scrollListW() {
         //使用rem无效，动态计算成px
         let remSize = (this.itemList.length) * 1.38 + .9;
-        //这里由于样式中itemlist的宽度写死了,最好改为自适应
+        //这里由于样式中itemlist的宽度写死了可直接乘,后期最好改为自适应
 //        console.log(remSize)
         return `${remSize * this.htmlfontSize}px`
       },
-      focusList() {
-        return this.jsonData ? this.jsonData.focusList : ''
-      }
     },
     components: {
       Scroll,
@@ -85,13 +85,8 @@
             title: item.name
           })
         })
-//        this.itemList = lists;
-
-        //模拟数据延迟一秒显示加载中组件
-        setTimeout(() => {
-          this.itemList = lists;
-        }, 600)
-        window.scroller = this.$refs.scroll
+        this.itemList = lists;
+//        window.scroller = this.$refs.scroll
       }
     }
   }
@@ -104,6 +99,7 @@
     color: #333;
     text-align: center;
     .topNav {
+      height: 1.52rem;
       .topBar {
         padding: .16rem .3rem;
         display: flex;
@@ -142,24 +138,17 @@
           margin: 0 .24rem;
         }
       }
-      .wrapper:after {
-        content: '';
-        width: 100%;
-        height: 1px;
-        left: 0;
-        position: absolute;
-        background-color: #d9d9d9;
+      .wrapper {
+        /*height: .6rem;*/
+        border-bottom: 1px solid #d9d9d9;
       }
     }
     .pageContent {
       overflow: hidden;
       position: absolute;
-      margin: 1.5rem 0 1rem;
-      /*用绝对布局加padding会遮盖住其他元素*/
-      top: 0;
-      bottom: 0;
       width: 100%;
-      /*此处也可用fixed*/
+      top: 1.52rem;
+      bottom: 1rem;
     }
   }
 

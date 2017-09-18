@@ -1,5 +1,5 @@
 <template>
-  <Scroll ref="scroll" :data="jsonData" class="wrapper"
+  <scroll ref="scroll" :data="jsonData" class="wrapper"
           :options="{click:true,bounce:false}"
   >
     <div class="scrollContent" v-show="jsonData">
@@ -12,7 +12,7 @@
       ></subcategory>
     </div>
     <loading v-show="!jsonData" :h="60" :w="60"></loading>
-  </Scroll>
+  </scroll>
 </template>
 <script>
   import Scroll from 'components/base/scroll.vue'
@@ -42,16 +42,19 @@
     watch: {
       //监听路由变化，重新获取数据
       //但是获取数据是异步的，快速点击时问题如何解决？
-      $route(val) {
-        this.jsonData = '';
+      $route: {
+        handler(val){
+          this.jsonData = '';
 //        console.log(this.$route)
 //        console.log(this.$router)
-        this._getData(this.$route.params.cateItem);
+          this._getData(this.$route.params.cateItem);
+        },
+        deep:true
       }
     },
     methods: {
       _getData(id) {
-        //这里传递categoryid进来是为了保存起来在_handledata时做判断
+        //这里传递id进来是为了保存起来在_handledata时做判断
         getCateItem(id)
           .then(data => this._handledata(data, id))
       },
