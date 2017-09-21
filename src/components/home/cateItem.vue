@@ -1,15 +1,20 @@
 <template>
   <scroll ref="scroll" :data="jsonData" class="wrapper"
-          :options="{click:true,bounce:false}"
+          :listenScroll="true"
+          :savePostion="true"
+          :options="{click:true,bounce:false,probeType:3}"
   >
     <div class="scrollContent" v-show="jsonData">
-      <div class="banner">
-        <img :src="bannerUrl" alt="">
+      <!--for bottom white space-->
+      <div style="padding-bottom: .25rem">
+        <div class="banner">
+          <img :src="bannerUrl" alt="">
+        </div>
+        <subcategory v-for="(categoryItem,index) in categoryItemList"
+                     :subcategoryitems="categoryItem"
+                     :key="index"
+        ></subcategory>
       </div>
-      <subcategory v-for="(categoryItem,index) in categoryItemList"
-                   :subcategoryitems="categoryItem"
-                   :key="index"
-      ></subcategory>
     </div>
     <loading v-show="!jsonData" :h="60" :w="60"></loading>
   </scroll>
@@ -43,13 +48,13 @@
       //监听路由变化，重新获取数据
       //但是获取数据是异步的，快速点击时问题如何解决？
       $route: {
-        handler(val){
+        handler(val) {
           this.jsonData = '';
 //        console.log(this.$route)
 //        console.log(this.$router)
           this._getData(this.$route.params.cateItem);
         },
-        deep:true
+        deep: true
       }
     },
     methods: {

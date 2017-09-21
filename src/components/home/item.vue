@@ -23,7 +23,7 @@
       }
     },
     mounted() {
-      console.log(this.colorNum, this.itemInfo.productPlace)
+//      console.log(this.colorNum, this.itemInfo.productPlace)
     },
     computed: {
       desc() {
@@ -77,6 +77,12 @@
       }
 
     }
+    p{
+      /*文字超出一行缩略*/
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+    }
     .desc {
       height: .7rem;
       padding: .2rem;
@@ -86,11 +92,7 @@
       font-size: .24rem;
     }
     .name {
-      /*文字超出一行缩略*/
       padding: .2rem;
-      text-overflow: ellipsis;
-      overflow: hidden;
-      white-space: nowrap;
       background-color: #fff;
     }
     .price {

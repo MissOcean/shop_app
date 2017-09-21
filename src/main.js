@@ -5,7 +5,7 @@ import router from './router'
 import VueAwesomeSwiper from 'vue-awesome-swiper'
 import fastclick from 'fastclick'
 import VueLazyLoad from 'vue-lazyload'
-import loadingImg from './common/image/loading.jpg'
+import loadingImg from './common/image/loading.gif'
 import 'common/styles/reset.less'
 //rem self-justify
 import 'api/globalConfig.js'

@@ -1,25 +1,27 @@
 <template>
   <div class="recommendList">
-    <div class="header">
+    <div class="header"
+         :style="{color:headerInfos.color,backgroundColor:headerInfos.bgColor}">
       <div class="btn">
-        <span class="title">{{title}}</span>
-        <span class="viewAll">查看全部</span>
+        <span class="title">{{headerInfos.title}}</span>
+        <span class="viewAll" :style="{backgroundColor:headerInfos.btnBg}">查看全部</span>
       </div>
       <div class="trigon"></div>
     </div>
     <scroll :options="{scrollX:true,scrollY:false,click:true}" :data="itemList">
       <ul class="list" :style="{width:scrollW}">
-        <li v-for="item in itemList">
+        <li v-for="item in itemList" class="item">
           <div class="picPanel">
             <div v-if="!item.productPlace&&item.colorNum" class="label">{{item.colorNum}}色可选</div>
             <div v-if="item.productPlace" class="label">{{item.productPlace}}</div>
             <img v-lazy="item.listPicUrl" alt="">
           </div>
           <div class="tag"></div>
-          <p class="name">{{}}</p>
-          <p class="desc">{{}}</p>
-          <p class="price">￥ {{}}</p>
+          <p class="name">{{item.name}}</p>
+          <p class="desc">{{item.simpleDesc}}</p>
+          <p class="price">￥ {{item.retailPrice}}</p>
         </li>
+        <li class="showAll">查看全部</li>
       </ul>
     </scroll>
   </div>
@@ -29,7 +31,12 @@
 
   export default {
     props: {
-      title: {},
+      headerInfos: {
+        type: [Object, String],
+        default() {
+          return {}
+        }
+      },
       itemList: {
         type: [Array, String],
         default() {
@@ -42,10 +49,11 @@
     },
     computed: {
       scrollW() {
-        return '700px'
+        //使用rem无效，动态计算成px
+        let remSize = (this.itemList.length + 1) * 3.08 + .28;
+        return `${remSize * window.config.htmlfontSize}px`
       },
     },
-
     components: {Scroll}
   }
 </script>
@@ -54,8 +62,7 @@
     background: #fff;
     margin-bottom: .17rem;
     .header {
-      color: #8BA0B6;
-      background-color: #f1f7fd;
+      /*background-color: #f1f7fd;*/
       height: 2.6rem;
       display: flex;
       justify-content: center;
@@ -75,7 +82,7 @@
           height: .56rem;
           line-height: .56rem;
           margin: 0 .4rem;
-          background: #D8E5F1;
+          /*background: #D8E5F1;*/
           border-radius: 1px;
         }
       }
@@ -92,9 +99,9 @@
     .list {
       display: flex;
       flex-wrap: nowrap;
-      li {
+      .item {
+        width: 2.8rem;
         margin-left: .28rem;
-        background: bisque;
         .picPanel {
           position: relative;
           width: 2.8rem;
@@ -117,6 +124,34 @@
             font-family: PingFangSC-Light, helvetica, 'Heiti SC';
           }
         }
+        p {
+          /*文字超出一行缩略*/
+          text-overflow: ellipsis;
+          overflow: hidden;
+          white-space: nowrap;
+          text-align: left;
+          margin: .12rem;
+        }
+        .name {
+          font-size: .25rem;
+        }
+        .desc {
+          font-size: .21rem;
+          color: #7f7f7f
+        }
+        .price {
+          color: #b4282d;
+        }
+      }
+      .showAll {
+        color: #666;
+        font-size: .25rem;
+        border: .08rem solid #f4f4f4;
+        line-height: 2.8rem;
+        width: 2.8rem;
+        height: 2.8rem;
+        margin-left: .28rem;
+        box-sizing: border-box;
       }
     }
   }
