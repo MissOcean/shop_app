@@ -9,8 +9,12 @@ import Topic from 'components/topic/topic.vue'
 import Category from 'components/category/category.vue'
 import Cart from 'components/cart/cart.vue'
 import User from 'components/user/user.vue'
-import Detail from 'components/detail/detail.vue'
 import Search from 'components/search/search.vue'
+
+import Detail from 'components/detail/detail.vue'
+import Product from 'components/detail/product.vue'
+import Comment from 'components/detail/comment.vue'
+
 
 
 Vue.use(Router)
@@ -56,8 +60,22 @@ export default new Router({
       component: User
     },
     {
-      path: '/detail/:itemid',
-      component: Detail
+      path: '/detail/:productId',
+      component: Detail,
+      children: [
+        {
+          path: '',
+          component: Product
+        },
+        {
+          path: 'product',
+          component: Product
+        },
+        {
+          path: 'comment',
+          component: Comment
+        }
+      ]
     },
     {
       path:'/search',

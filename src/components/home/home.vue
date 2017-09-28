@@ -2,22 +2,24 @@
   <div class="page">
     <div class="topNav">
       <div class="topBar">
-        <router-link to="/home" tag="div" class="logo">网易严选</router-link>
+        <!--<router-link to="/home" tag="div" class="logo">网易严选</router-link>-->
+        <a class="logo" href="http://localhost:8090">网易严选</a>
         <router-link to="/search" tag="div" class="searchBtn">输入商品名搜索</router-link>
       </div>
       <!--scroll横向滚动导航-->
       <scroll :options="{scrollX:true,scrollY:false,click:true}"
               class="wrapper"
-              ref="scroll"
+              ref="scrollNav"
               :data="itemList"
               v-show="itemList.length"
       >
         <div class="scrollList" :style="{width:scrollListW}">
-          <router-link to="/home" tag="div">推荐</router-link>
+          <router-link to="/home" tag="div" ref="navHome">推荐</router-link>
           <router-link :to="`/home/${item.id}`" tag="div"
                        v-for="(item,index) in itemList"
+                       :id="`nav${index+1}`"
                        class="listItem"
-                       ref="item"
+                       :ref="item.id"
                        :key="index"
           >{{item.title}}
           </router-link>
@@ -28,9 +30,11 @@
       <router-view :data="jsonData" v-show="jsonData"></router-view>
       <loading v-show="!jsonData" :h="60" :w="60"></loading>
     </div>
+    <b-navbar></b-navbar>
   </div>
 </template>
 <script>
+  import BNavbar from 'components/base/b_navbar.vue'
   import Scroll from 'components/base/scroll.vue'
   import Loading from 'components/base/loading.vue'
   import {getRecommendData} from 'api/getData.js'
@@ -45,11 +49,13 @@
     },
     created() {
       //getData
+      window.home = this;
       getRecommendData().then(data => {
         //设置定时器模拟延时600ms
-        setTimeout(() => {
-          this._handleData(data)
-        }, 600)
+        this._handleData(data)
+
+//        setTimeout(() => {
+//        }, 300)
       })
       //window resize改变htmlfontSize
       let that = this;
@@ -57,6 +63,30 @@
       window.addEventListener('resize', function () {
         that.htmlfontSize = window.config.htmlfontSize
       })
+    },
+    watch: {
+      $route: {
+        handler(route) {
+//          window.scrollNav = this.$refs.scrollNav;
+          if (route.fullPath === '/home' || route.fullPath === '/home/recommend') {
+            this.$refs.scrollNav.scrollToElement(this.$refs.navhome, 200, true)
+            //路由再次切到主页的时候，之前是不会重新获取数据的，所以不会触发refresh
+            //事件，所以滚动条不会有高度，所以这里监听切到主页的时候重新再获取数据
+            //非常low，暂时想不到更好的办法了
+            this.jsonData = ''
+            getRecommendData().then(data => {
+              //设置定时器模拟延时600ms
+              setTimeout(() => {
+                this._handleData(data)
+              }, 600)
+            })
+          } else {
+            let ele = this.$refs[this.$route.params.cateItem][0].$el;
+            this.$refs.scrollNav.scrollToElement(ele, 200, true)
+          }
+        },
+        deep: true
+      }
     },
     computed: {
       scrollListW() {
@@ -70,6 +100,7 @@
     components: {
       Scroll,
       Loading,
+      BNavbar
     },
 
     methods: {

@@ -2,7 +2,9 @@
   <scroll ref="scroll" :data="jsonData" class="wrapper"
           :listenScroll="true"
           :savePostion="true"
-          :options="{click:true,bounce:false,probeType:3}"
+          :hasBackToTop="true"
+          :hasScrollBar="true"
+          :options="{click:true,bounce:false,probeType:3,swipeTime:2500}"
   >
     <div class="scrollContent" v-show="jsonData">
       <!--for bottom white space-->
@@ -52,6 +54,11 @@
           this.jsonData = '';
 //        console.log(this.$route)
 //        console.log(this.$router)
+          //由于共用一个scroller，路由切换时需要重设scroler回到顶部
+
+          this.$refs.scroll.stop();
+          this.$refs.scroll.scrollTo(0, 0);
+          this.$refs.scroll.$refs.scrollBar.style.top = '0px'
           this._getData(this.$route.params.cateItem);
         },
         deep: true
@@ -60,14 +67,13 @@
     methods: {
       _getData(id) {
         //这里传递id进来是为了保存起来在_handledata时做判断
-        getCateItem(id)
-          .then(data => this._handledata(data, id))
+        getCateItem(id).then(data => this._handledata(data, id))
       },
       _handledata(jsonData, id) {
-        console.log('handle', id === this.$route.params.cateItem)
+//        console.log('handle', id === this.$route.params.cateItem)
         if (this.$route.params.cateItem === id) {
           this.jsonData = jsonData.data
-          console.log(jsonData.data)
+//          console.log(jsonData.data)
 //        window.scroller = this.$refs.scroll
         }
       }

@@ -2,11 +2,13 @@
   <scroll ref="scroll" :data="data" class="wrapper"
           :listenScroll="true"
           :savePostion="true"
+          :hasBackToTop="true"
+          :hasScrollBar="true"
           :options="{click:true,bounce:false,probeType:3}">
     <div class="scrollContent">
       <!--焦点图-->
       <div class="focusList">
-        <swiper :items="data.focusList"></swiper>
+        <swiper :picList="focusPicList"></swiper>
         <ul class="log">
           <li><i class="iconfont icon-roundcheck"></i><span>网易自营品牌</span></li>
           <li><i class="iconfont icon-roundcheck"></i><span>30天无忧退换</span></li>
@@ -42,7 +44,8 @@
       <div class="cateList">
         <div class="subList" v-for="subList in cateList">
           <p class="subListTitle">{{subList.name}}好物</p>
-          <item v-for="itemInfo in subList.itemList" :itemInfo="itemInfo"></item>
+          <item v-for="(itemInfo,idx) in subList.itemList"
+                :itemInfo="itemInfo" key="idx"></item>
           <div class="cover">
             <div class="more">
               <span>更多{{subList.name}}好物</span>
@@ -80,8 +83,8 @@
     },
     components: {Swiper, Scroll, RecommendList, Item},
     computed: {
-      focusList() {
-        return this.data ? this.data.focusList : ''
+      focusPicList() {
+        return !this.data ? [] : this.data.focusList.map((item)=>item.picUrl)
       },
       tagList() {
         return this.data ? this.data.tagList.slice(0, 4) : ''

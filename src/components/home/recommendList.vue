@@ -10,7 +10,8 @@
     </div>
     <scroll :options="{scrollX:true,scrollY:false,click:true}" :data="itemList">
       <ul class="list" :style="{width:scrollW}">
-        <li v-for="item in itemList" class="item">
+        <router-link tag="li" :to="`/detail/${item.id}`" key="idx"
+                     v-for="(item,idx) in itemList" class="item">
           <div class="picPanel">
             <div v-if="!item.productPlace&&item.colorNum" class="label">{{item.colorNum}}色可选</div>
             <div v-if="item.productPlace" class="label">{{item.productPlace}}</div>
@@ -20,7 +21,7 @@
           <p class="name">{{item.name}}</p>
           <p class="desc">{{item.simpleDesc}}</p>
           <p class="price">￥ {{item.retailPrice}}</p>
-        </li>
+        </router-link>
         <li class="showAll">查看全部</li>
       </ul>
     </scroll>
@@ -44,14 +45,25 @@
         }
       }
     },
+    data() {
+      return {
+        htmlfontSize: 0
+      }
+    },
     created() {
-      console.log(this.itemList)
+//      console.log(this.itemList)
+      //window resize改变htmlfontSize
+      let that = this;
+      this.htmlfontSize = window.config.htmlfontSize;
+      window.addEventListener('resize', function () {
+        that.htmlfontSize = window.config.htmlfontSize
+      })
     },
     computed: {
       scrollW() {
         //使用rem无效，动态计算成px
         let remSize = (this.itemList.length + 1) * 3.08 + .28;
-        return `${remSize * window.config.htmlfontSize}px`
+        return `${remSize * this.htmlfontSize}px`
       },
     },
     components: {Scroll}

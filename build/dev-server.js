@@ -24,16 +24,30 @@ var app = express()
 
 var apiRoutes = express.Router()
 let configs = {
+  //主页数据
   recommendRoute: '/getRecommendData',
   recommendUrl: 'https://m.you.163.com/',
+  //分类数据
   cateItemRoute: '/getCateItem',
   cateItemUrl: 'https://m.you.163.com/item/list',
+  //商品详情
+  productDetailRoute: '/getProductDetail',
+  productDetailUrl: 'https://m.you.163.com/item/detail',
+  //好评，post，ecodedurl
+  productGoodRateRoute: '/getProductGoodRate',
+  productGoodRateUrl: 'http://m.you.163.com/xhr/comment/itemGoodRates.json',
+  //评价标签，post,ecodedurl
+  commentTagsRoute: '/getCommentTags',
+  commentTagsUrl: 'http://m.you.163.com/xhr/comment/tags.json',
+  //根据tag获取评论
+  commentByTagRoute: '/getCommentByTag',
+  commentByTagUrl: 'http://m.you.163.com/xhr/comment/listByItemByTag.json',
 }
-let axios = require('axios')
+let axios = require('axios');
+let ecode = require('querystring')
 //获取主页数据
 apiRoutes.get(configs.recommendRoute, (req, res) => {
   let url = configs.recommendUrl;
-  // console.log(req.query)
   axios.get(url, {
     params: req.query
   }).then(response => {
@@ -43,6 +57,38 @@ apiRoutes.get(configs.recommendRoute, (req, res) => {
 //获取分类数据
 apiRoutes.get(configs.cateItemRoute, (req, res) => {
   let url = configs.cateItemUrl;
+  axios.get(url, {
+    params: req.query
+  }).then(response => {
+    res.json(response.data)
+  }).catch(e => console.log(e))
+})
+//获取商品详情
+apiRoutes.get(configs.productDetailRoute, (req, res) => {
+  let url = configs.productDetailUrl;
+  axios.get(url, {
+    params: req.query
+  }).then(response => {
+    res.json(response.data)
+  }).catch(e => console.log(e))
+})
+//获取商品好评度
+apiRoutes.get(configs.productGoodRateRoute, (req, res) => {
+  let url = configs.productGoodRateUrl;
+  axios.post(url, ecode.stringify(req.query)).then(response => {
+    res.json(response.data)
+  }).catch(e => console.log(e))
+})
+//获取评论页标签
+apiRoutes.get(configs.commentTagsRoute, (req, res) => {
+  let url = configs.commentTagsUrl;
+  axios.post(url, ecode.stringify(req.query)).then(response => {
+    res.json(response.data)
+  }).catch(e => console.log(e))
+})
+//根据tag获取评论
+apiRoutes.get(configs.commentByTagRoute, (req, res) => {
+  let url = configs.commentByTagUrl;
   axios.get(url, {
     params: req.query
   }).then(response => {

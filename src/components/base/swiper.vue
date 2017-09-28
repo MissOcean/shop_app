@@ -1,7 +1,7 @@
 <template>
   <swiper :options="options" class="swiper">
-    <swiper-slide v-for="(item,index) in items" :key="index" class="swiper-item">
-      <img :src="item.picUrl" alt="">
+    <swiper-slide v-for="(pic,index) in picList" :key="index" class="swiper-item">
+      <img :src="pic" alt="">
     </swiper-slide>
     <div class="swiper-pagination" slot="pagination"></div>
   </swiper>
@@ -21,7 +21,7 @@
       }
     },
     props: {
-      items: {
+      picList: {
         type: Array,
         default() {
           return []
