@@ -1,5 +1,5 @@
 <template>
-  <li class="commentItem">
+  <div class="commentItem">
     <div class="userInfo">
       <div class="userAvatar" v-if="!comment.frontUserAvatar">
         <i class="iconfont icon-people"></i>
@@ -13,7 +13,7 @@
       <span class="createAt">{{time}}</span>
       <span v-for="info in comment.skuInfo" class="skuInfo">{{info}}</span>
     </div>
-    <div class="content">{{comment.content}}</div>
+    <div class="content" v-html="handledContent"></div>
     <div class="commentPic">
       <ul class="picPanel">
         <li class="pic" v-for="picSrc in comment.picList">
@@ -21,7 +21,7 @@
         </li>
       </ul>
     </div>
-  </li>
+  </div>
 </template>
 <script>
   import {fomateDate} from 'api/utils.js'
@@ -40,6 +40,11 @@
     computed: {
       time() {
         return fomateDate(this.comment.createTime)
+      },
+      handledContent() {
+        //  vue中{{}}叫文本插值，内部会按照普通字符串进行处理 所以将字符串处理为文本节点用v-html绑定
+        let htmlStr = this.comment.content ? this.comment.content.replace(/\n/g, '<br>') : ''
+        return htmlStr;
       }
     },
     components: {Star}
@@ -60,21 +65,22 @@
         background-color: #ededed;
         line-height: .6rem;
         text-align: center;
-        i{
+        i {
           font-size: .32rem;
         }
       }
-      .memberLevel{
-        line-height:.6rem;
+      .memberLevel {
+        line-height: .6rem;
         font-style: italic;
         margin-right: .1rem;
       }
-      .userName{
+      .userName {
         line-height: .6rem;
         margin: 0 .15rem;
       }
     }
     .extraInfo {
+      text-align: left;
       span {
         color: #7f7f7f;
       }

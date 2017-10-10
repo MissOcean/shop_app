@@ -27,7 +27,7 @@
     background-color: #fafafa;
     position: relative;
     height: .86rem;
-    border-bottom:1px solid #d9d9d9 ;
+    border-bottom:.01rem solid #d9d9d9 ;
     padding: 0 .24rem;
     div{}
     .logo {

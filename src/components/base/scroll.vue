@@ -39,9 +39,9 @@
         type: Boolean,
         default: false
       },
-      scrollHandle:{
-        type:[Function,String],
-        default:''
+      scrollHandle: {
+        type: [Function, String],
+        default: ''
       }
     },
     data() {
@@ -61,26 +61,27 @@
         if (!this.data) return
         //console.log(this.data)
         let that = this;
-        setTimeout(function () {
-          that.refresh();
-        }, 20)
-        /*this.$nextTick(() => {
+        /* setTimeout(function () {
+           that.refresh();
+         }, 20)*/
+        this.$nextTick(() => {
           this.refresh()
-        })*/
+        })
         //设置20ms延时或$nextTick为了保证dom加载完毕后计算，否者新的scroll值不会改变
       }
     },
     created() {
       //window resize时reflesh
-      let that = this;
-      window.addEventListener('resize', function () {
-        that.refresh();
-      })
+      window.addEventListener('resize', this.handleWinResize)
       //此处有个bug，从移动端切到pc端refresh无用，需刷新页面
+    },
+    destroyed() {
+      window.removeEventListener('resize', this.handleWinResize)
     },
     mounted() {
       setTimeout(this._initScroll, 20)
     },
+
     methods: {
       log() {
         console.log(this.scroll.y)
@@ -92,6 +93,11 @@
       refresh() {
 //        this._initScroll()
         this.scroll && this.scroll.refresh();
+      },
+      handleWinResize() {
+        setTimeout(() => {
+          this.refresh();
+        }, 20)
       },
       stop() {
 //        this._initScroll()
@@ -119,9 +125,11 @@
             let winH = document.documentElement.clientHeight;
             let h = parseInt(winH * winH / this.scroll.scrollerHeight)
             //设置scrollBar高度
-            this.$refs.scrollBar.style.height = h + 'px';
-            //设置可滚动高度,scrollBar与scrollContent回到顶部
-            this.scroll.scrollerDistance = winH - this.$refs.scrollBar.clientHeight;
+            if (this.$refs.scrollBar) {
+              //设置可滚动高度,scrollBar与scrollContent回到顶部
+              this.$refs.scrollBar.style.height = h + 'px';
+              this.scroll.scrollerDistance = winH - this.$refs.scrollBar.clientHeight
+            }
             //this.$refs.scrollBar.style.top = '0px';  -->移到cateitem中了,只在那里才需要
 //            console.log(winH, this.scroll.scrollerHeight, h,this.scroll.scrollerDistance)
           })
@@ -135,7 +143,7 @@
             let d = this.scroll.scrollerDistance;
             barTop = d * y / this.scroll.maxScrollY
 //              console.log(barTop);
-            this.$refs.scrollBar.style.top = barTop + 'px';
+            this.$refs.scrollBar ? this.$refs.scrollBar.style.top = barTop + 'px' : null;
           })
           //自定义scroll处理函数
           if (this.scrollHandle) {

@@ -27,12 +27,18 @@ let configs = {
   //主页数据
   recommendRoute: '/getRecommendData',
   recommendUrl: 'https://m.you.163.com/',
-  //分类数据
+  //主页分类数据
   cateItemRoute: '/getCateItem',
   cateItemUrl: 'https://m.you.163.com/item/list',
+  //分类页分类数据
+  cateListRoute:'/getCateList',
+  cateListUrl:'http://m.you.163.com/item/cateList',
   //商品详情
   productDetailRoute: '/getProductDetail',
   productDetailUrl: 'https://m.you.163.com/item/detail',
+  //根据商品获取推荐
+  rcmdByProductRoute:'/getRcmdByProduct',
+  rcmdByProductUrl:'http://m.you.163.com/xhr/wapitem/rcmd.json',
   //好评，post，ecodedurl
   productGoodRateRoute: '/getProductGoodRate',
   productGoodRateUrl: 'http://m.you.163.com/xhr/comment/itemGoodRates.json',
@@ -54,9 +60,18 @@ apiRoutes.get(configs.recommendRoute, (req, res) => {
     res.json(response.data)
   }).catch(e => console.log(e))
 })
-//获取分类数据
+//获取主页分类数据
 apiRoutes.get(configs.cateItemRoute, (req, res) => {
   let url = configs.cateItemUrl;
+  axios.get(url, {
+    params: req.query
+  }).then(response => {
+    res.json(response.data)
+  }).catch(e => console.log(e))
+})
+//获取分类页分类数据
+apiRoutes.get(configs.cateListRoute, (req, res) => {
+  let url = configs.cateListUrl;
   axios.get(url, {
     params: req.query
   }).then(response => {
@@ -72,6 +87,14 @@ apiRoutes.get(configs.productDetailRoute, (req, res) => {
     res.json(response.data)
   }).catch(e => console.log(e))
 })
+//根据商品获取推荐
+apiRoutes.get(configs.rcmdByProductRoute, (req, res) => {
+  let url = configs.rcmdByProductUrl;
+  axios.post(url, ecode.stringify(req.query)).then(response => {
+    res.json(response.data)
+  }).catch(e => console.log(e))
+})
+
 //获取商品好评度
 apiRoutes.get(configs.productGoodRateRoute, (req, res) => {
   let url = configs.productGoodRateUrl;

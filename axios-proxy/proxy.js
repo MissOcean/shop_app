@@ -69,7 +69,13 @@ http.createServer((req, res) => {
       res.end(JSON.stringify(axios_res.data));
     }).catch(e => console.log(e));
   }
-
+  else if (pathname == '/proxyUrl') {
+    let url = query.url;
+    axios.get(url).then(axios_res=>{
+      res.setHeader('content-type', 'application/json;charset=utf-8');
+      res.end(JSON.stringify(axios_res.data));
+    }).catch(e => console.log(e));
+  }
   else {
     res.end('404')
   }

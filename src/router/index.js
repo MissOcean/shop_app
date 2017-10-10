@@ -57,7 +57,21 @@ export default new Router({
     },
     {
       path: '/user',
-      component: User
+      component: User,
+      children: [
+        {
+          path: '',
+          component: Recommend
+        },
+        {
+          path: 'recommend',
+          component: Recommend
+        },
+        {
+          path: ':cateItem',
+          component: CateItem
+        }
+      ]
     },
     {
       path: '/detail/:productId',

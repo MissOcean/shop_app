@@ -28,14 +28,14 @@
             <span class="toggleInfo">{{hideTags ? '更多' : '收起'}}</span>
           </div>
         </div>
-        <ul class="commentPanel">
+        <div class="commentPanel">
           <commentItem v-for="(comment,index) in allComments"
                        class="comment" :key="index"
                        :comment="comment">
           </commentItem>
           <div class="commentLoading" v-show="isLoading">正在加载 ...</div>
           <div class="commentOver" v-if="curPage==totalPage">已经到底啦</div>
-        </ul>
+        </div>
       </div>
     </scroll>
     <loading v-show="!allComments.length" :h="60" :w="60"></loading>
@@ -148,7 +148,7 @@
     overflow: hidden;
     position: absolute;
     width: 100%;
-    top: .86rem;
+    top: .87rem;
     bottom: 0;
     background-color: #fff;
     .wrapper {
