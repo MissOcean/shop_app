@@ -8,7 +8,7 @@
     <div class="scrollContent">
       <!--焦点图-->
       <div class="focusList">
-        <swiper :picList="focusPicList"></swiper>
+        <carousel :picList="focusPicList" class="swiper" :slideStyle="{height:'4rem'}"></carousel>
         <ul class="log">
           <li><i class="iconfont icon-roundcheck"></i><span>网易自营品牌</span></li>
           <li><i class="iconfont icon-roundcheck"></i><span>30天无忧退换</span></li>
@@ -55,21 +55,13 @@
         </div>
       </div>
       <!--版权-->
-      <div class="footer">
-        <div class="appAndPc">
-          <div>下载APP</div>
-          <div>电脑版</div>
-        </div>
-        <div class="copyright">
-          <span>网易公司版权所有 © 1997-2017</span>
-          <span>食品经营许可证：JY13301080111719</span>
-        </div>
-      </div>
+      <copyRight></copyRight>
     </div>
   </scroll>
 </template>
 <script>
-  import Swiper from '../base/swiper.vue'
+  import Carousel from '../base/carousel.vue'
+  import CopyRight from '../base/copyright.vue'
   import Scroll from 'components/base/scroll.vue'
   import RecommendList from './recommendList.vue'
   import Item from './item.vue'
@@ -81,10 +73,10 @@
         default: ''
       }
     },
-    components: {Swiper, Scroll, RecommendList, Item},
+    components: {Scroll, RecommendList, Item, Carousel,CopyRight},
     computed: {
       focusPicList() {
-        return !this.data ? [] : this.data.focusList.map((item)=>item.picUrl)
+        return !this.data ? [] : this.data.focusList.map((item) => item.picUrl)
       },
       tagList() {
         return this.data ? this.data.tagList.slice(0, 4) : ''
@@ -104,6 +96,9 @@
       flex-direction: column;
       .focusList {
         margin-bottom: .17rem;
+        .swiper {
+          height: 4rem;
+        }
         .log {
           width: 100%;
           background: #fff;
@@ -218,33 +213,6 @@
             }
 
           }
-        }
-      }
-      .footer {
-        height: 2.5rem;
-        background: #414141;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        font-size: .24rem;
-        .appAndPc {
-          display: flex;
-          height: .6rem;
-          line-height: .6rem;
-
-          color: #fff;
-          margin: .4rem 0;
-          div {
-            border-radius: .05rem;
-            width: 1.7rem;
-            border: 1px solid #999;
-            margin: 0 .25rem;
-          }
-        }
-        .copyright {
-          color: #999;
-          display: flex;
-          flex-direction: column;
         }
       }
     }

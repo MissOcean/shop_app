@@ -6,7 +6,11 @@ import Recommend from 'components/home/recommend.vue'
 import CateItem from 'components/home/cateItem.vue'
 
 import Topic from 'components/topic/topic.vue'
+//category
 import Category from 'components/category/category.vue'
+import CategoryList from 'components/category/categoryList.vue'
+import SubCategoryList from 'components/category/subCategoryList.vue'
+
 import Cart from 'components/cart/cart.vue'
 import User from 'components/user/user.vue'
 import Search from 'components/search/search.vue'
@@ -49,7 +53,21 @@ export default new Router({
     },
     {
       path: '/category',
-      component: Category
+      component: Category,
+      children: [
+        {
+          path: '',
+          redirect: '/category/1005000'
+        },
+        {
+          path: ':categoryId',
+          component: CategoryList
+        },
+      ]
+    },
+    {
+      path: '/category/:categoryId/:subCategoryId',
+      component: SubCategoryList
     },
     {
       path: '/cart',

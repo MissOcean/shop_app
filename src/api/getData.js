@@ -9,12 +9,12 @@ export function getRecommendData() {
 }
 
 //home-cateItem
-export function getCateItem(categoryId) {
-  //get:/api/getCateItem?categoryId=xxx
+export function getCateItem(categoryId,subCategoryId) {
+  //get:/api/getCateItem?categoryId=xxx&subCategoryId=xxxx
   const url = '/api/getCateItem'
   return axios.get(url, {
     params: {
-      categoryId
+      categoryId,subCategoryId
     }
   }).then(res => {
     return Promise.resolve(res.data)
@@ -30,9 +30,11 @@ export function getCateList(categoryId) {
       categoryId
     }
   }).then(res => {
+    //console.log(res.data)
     return Promise.resolve(res.data)
   })
 }
+
 
 //detail-product
 export function getProductDetail(productId) {

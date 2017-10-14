@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div :style="{backgroundColor:bgColor}">
     <svg :style="{height:h+'px',width:w+'px'}"
          xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
       <circle cx="16" cy="3" r="0">
@@ -52,6 +52,10 @@
       w: {
         type: Number,
         default: 32
+      },
+      bgColor:{
+        type: String,
+        default: '#f4f4f4'
       }
     }
   }
@@ -61,6 +65,7 @@
     position: relative;
     width: 100%;
     height: 100%;
+    z-index: 100;
   }
 
   svg {
@@ -77,6 +82,7 @@
     left: 0;
     right: 0;
     font-size: .4rem;
+    text-align: center;
   }
 
 </style>

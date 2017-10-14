@@ -1,13 +1,29 @@
 <template>
-  <div class="title">
-    <div class="bgLine"></div>
-    <span>{{title}}</span>
+  <div class="title" :style="customBoxStyle">
+    <div class="bgLine" :style="{width:lineWidth}"></div>
+    <span :style="customContentStyle" >{{title}}</span>
   </div>
 </template>
 <script>
   export default {
     props: {
       title: {
+        type: String,
+        default: ''
+      },
+      customBoxStyle:{
+        type: Object,
+        default(){
+          return {}
+        }
+      },
+      customContentStyle:{
+        type: Object,
+        default(){
+          return {}
+        }
+      },
+      lineWidth:{
         type: String,
         default: ''
       }
@@ -37,6 +53,7 @@
       margin: auto;
       width: 2rem;
       height: .5rem;
+      line-height: .5rem;
       background-color: #fff;
     }
   }

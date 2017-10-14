@@ -79,20 +79,19 @@
         return detailHtml.match(reg)
       },
       commentList() {
-        return this.jsonData && this.jsonData.item.comments
+        return this.jsonData ? this.jsonData.item.comments:''
       },
       swiperList() {
-        return this.jsonData && this.jsonData.item.listPicUrl
+        return this.jsonData ? this.jsonData.item.listPicUrl:''
       },
       characterList() {
-        return this.jsonData && this.jsonData.item.characteristicList
+        return this.jsonData ? this.jsonData.item.characteristicList:''
       },
       rcmdItems() {
-        return this.rcmdData && this.rcmdData.data.items
+        return this.rcmdData ? this.rcmdData.data.items:''
       },
       goodCmtRate() {
-        return this.proGoodRate && this.proGoodRate.data.goodCmtRate;
-
+        return this.proGoodRate ? this.proGoodRate.data?this.proGoodRate.data.goodCmtRate:'':'';
       }
     },
     created() {

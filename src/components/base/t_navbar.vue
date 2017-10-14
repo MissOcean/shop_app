@@ -24,7 +24,7 @@
 </script>
 <style scoped lang='less' type='text/less'>
   .t_navbar {
-    background-color: #fafafa;
+    /*background-color: #fafafa;*/
     position: relative;
     height: .86rem;
     border-bottom:.01rem solid #d9d9d9 ;
