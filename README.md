@@ -1,6 +1,6 @@
 # shop_app
 
-> yanxuan_shop vue app
+> 网易严选vue版
 
 ## Build Setup
 
